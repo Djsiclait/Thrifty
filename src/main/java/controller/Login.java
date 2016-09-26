@@ -1,4 +1,4 @@
-package html5;
+package controller;
 
 /**
  * Created by Eduardo veras on 25-Sep-16.
@@ -54,6 +54,7 @@ public class Login implements Serializable {
 
     //logout event, invalidate session
     public String logout() {
+
         return "login";
     }
 }
