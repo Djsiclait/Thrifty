@@ -8,7 +8,7 @@
     </servlet>
 
     <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
+        <welcome-file>logmein.jsf</welcome-file>
     </welcome-file-list>
     
     <servlet-mapping>
