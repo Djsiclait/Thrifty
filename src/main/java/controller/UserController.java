@@ -2,6 +2,7 @@ package controller;
 
 
 
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import org.apache.log4j.Logger;
 
@@ -11,11 +12,10 @@ import javax.inject.Named;
 import service.ThriftyManager;
 
 
-@ManagedBean
-@Named("userControler")
+@ManagedBean(name ="userControler")
 @SessionScoped
-public class UserController {
-    private static final Logger _log = Logger.getLogger(UserController.class);
+public class UserController implements Serializable {
+    //private static final Logger _log = Logger.getLogger(UserController.class);
 
     private String loginStatus;
     private String userName;
@@ -24,12 +24,14 @@ public class UserController {
     
     @PostConstruct
     public void init(){
-        
+    loginStatus = "";
+    userName = "";
+    password = "";
     }
 
     public String loginMeIn() {
         System.out.println("\n\n\nHello");
-        _log.info("Trying to Logging in now with UserName : " + userName);
+      //  _log.info("Trying to Logging in now with UserName : " + userName);
         
         System.out.println("\n\n\nworld");
         boolean loggedIn = ThriftyManager.validateCredentialsForUserAccount(userName, password);
