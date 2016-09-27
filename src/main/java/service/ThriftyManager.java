@@ -8,6 +8,8 @@ package service;
 import Class.Item;
 import Class.User;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -83,6 +85,18 @@ public class ThriftyManager {
         return "revealed";
     }
     
+    private static List<Item> itemCatalogSorter(List<Item> catalog){
+        
+        Collections.sort(catalog, new Comparator<Item>(){
+            @Override
+            public int compare(Item i1, Item i2){
+                return i1.getName().compareTo(i2.getName());
+            }
+        });
+        
+        return catalog;
+    }
+    
     // User Related Functions
     public static boolean createNewNonAdminUserAccount(String username, String firstName, String lastName, String password){
         if (!isUsernameTaken(username.toUpperCase())){
@@ -115,6 +129,20 @@ public class ThriftyManager {
         store.remove(findRegisteredItemByProductKey(productKey));
     }
     
+    public static List<Item> showCompleteStoreCatalog(){
+        return itemCatalogSorter(store);
+    }
+    
+    public static List<Item> showCompleteStoreVisibleCatalog(){
+        List<Item> catalog = new ArrayList<>();
+        
+        for(Item i: store)
+            if (i.isVisible())
+                catalog.add(i);
+        
+        return catalog.isEmpty() ? null : itemCatalogSorter(catalog);
+    }
+    
     public static List<Item> browseStoreForRegisteredItem(String name){
         List<Item> catalog = new ArrayList<>();
         
@@ -122,7 +150,7 @@ public class ThriftyManager {
             if (i.getName().equals(name.toUpperCase()) || i.getName().contains(name.toUpperCase()))
                 catalog.add(i);
         
-        return catalog.isEmpty() ? null : catalog;
+        return catalog.isEmpty() ? null : itemCatalogSorter(catalog);
     }
     
     public static List<Item> browseStoreForRegisteredItemCheaperThan(float price){
@@ -143,7 +171,7 @@ public class ThriftyManager {
                 if(i.getPrice() < price)
                     catalog.add(i);
         
-        return catalog.isEmpty() ? null : catalog;
+        return catalog.isEmpty() ? null : itemCatalogSorter(catalog);
     }
     
     public static String switchVisibilityOfRegisteredItem(String productKey){
