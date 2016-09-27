@@ -53,6 +53,14 @@ public class ThriftyManager {
         return (user != null);
     }
     
+    private Item findRegisteredItemByProductKey(String productKey){
+        for(Item i: store)
+            if (i.getProductKey().equals(productKey))
+                return i;
+        
+        return null;
+    }
+    
     // User Related Functions
     public boolean createNewNonAdminUserAccount(String username, String firstName, String lastName, String password){
         if (!isUsernameTaken(username.toUpperCase())){
@@ -72,4 +80,49 @@ public class ThriftyManager {
         
         return (user == null) ? false : user.getPassword().equals(password);
     }
+    
+    // Store Related Functions
+    public void registerNewItemInStore(String name, float price, Integer inStock){
+        if (price < 0.00f || inStock < 0)
+            throw new IllegalArgumentException();
+        
+        store.add(new Item(name.toUpperCase(), price, inStock, true));
+    }
+    
+    public void deleteRegisteredItemInStore(String productKey){
+        store.remove(findRegisteredItemByProductKey(productKey));
+    }
+    
+    public List<Item> browseStoreForRegisteredItem(String name){
+        List<Item> catalog = new ArrayList<>();
+        
+        for(Item i: store)
+            if (i.getName().equals(name.toUpperCase()) || i.getName().contains(name.toUpperCase()))
+                catalog.add(i);
+        
+        return catalog.isEmpty() ? null : catalog;
+    }
+    
+    public List<Item> browseStoreForRegisteredItemCheaperThan(float price){
+        List<Item> catalog = new ArrayList<>();
+        
+        for(Item i: store)
+            if (i.getPrice() < price)
+                catalog.add(i);
+        
+        return catalog.isEmpty() ? null : catalog;
+    }
+    
+    public List<Item> browseStoreForRegisteredItemCheaperThan(String name, float price){
+        
+        List<Item> catalog = new ArrayList<>();
+        
+        for(Item i: store)
+            if (i.getName().equals(name.toUpperCase()) || i.getName().contains(name.toUpperCase()))
+                if(i.getPrice() < price)
+                    catalog.add(i);
+        
+        return catalog.isEmpty() ? null : catalog;
+    }
+    
 }
