@@ -19,6 +19,25 @@
     <version>1.2.17</version>
 </dependency>
         <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>5.0</version>
+        </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/org.primefaces.extensions/primefaces-extensions -->
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>6.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>apache-log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.15</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>7.0</version>
