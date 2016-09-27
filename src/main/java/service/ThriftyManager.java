@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class ThriftyManager {
     // Attributes 
-    private List<User> users;
-    private List<Item> store;
+    private static List<User> users;
+    private static List<Item> store;
     
     // Defining Singleton
     private ThriftyManager(){
@@ -25,7 +25,7 @@ public class ThriftyManager {
     }
     
     // Setup
-    private void setupManagerConfigurations(){
+    private static void setupManagerConfigurations(){
         // initial setup
         if (users == null)
             users = new ArrayList<>();
@@ -39,7 +39,7 @@ public class ThriftyManager {
     }
     
     // Auxiliary Functions
-    public User findUserAccountByUsername(String username){
+    public static User findUserAccountByUsername(String username){
         for(User u: users)
             if(u.getUsername().equals(username.toUpperCase()))
                 return u;
@@ -47,13 +47,13 @@ public class ThriftyManager {
         return null; // Could not find the user Account
     }
     
-    private boolean isUsernameTaken(String username){
+    private static boolean isUsernameTaken(String username){
         User user = findUserAccountByUsername(username.toUpperCase());
         
         return (user != null);
     }
     
-    private Item findRegisteredItemByProductKey(String productKey){
+    private static Item findRegisteredItemByProductKey(String productKey){
         for(Item i: store)
             if (i.getProductKey().equals(productKey))
                 return i;
@@ -62,7 +62,7 @@ public class ThriftyManager {
     }
     
     // User Related Functions
-    public boolean createNewNonAdminUserAccount(String username, String firstName, String lastName, String password){
+    public static boolean createNewNonAdminUserAccount(String username, String firstName, String lastName, String password){
         if (!isUsernameTaken(username.toUpperCase())){
             users.add(new User(username.toUpperCase(), firstName.toUpperCase(), lastName.toUpperCase(), password, false));
             return true;
@@ -71,29 +71,29 @@ public class ThriftyManager {
             return false;
     }
     
-    public void deleteNonAdminUserAccount(String username){
+    public static void deleteNonAdminUserAccount(String username){
         users.remove(findUserAccountByUsername(username.toUpperCase()));
     }
     
-    public boolean validateCredentialsForUserAccount(String username, String password){
+    public static boolean validateCredentialsForUserAccount(String username, String password){
         User user = findUserAccountByUsername(username.toUpperCase());
         
         return (user == null) ? false : user.getPassword().equals(password);
     }
     
     // Store Related Functions
-    public void registerNewItemInStore(String name, float price, Integer inStock){
+    public static void registerNewItemInStore(String name, float price, Integer inStock){
         if (price < 0.00f || inStock < 0)
             throw new IllegalArgumentException();
         
         store.add(new Item(name.toUpperCase(), price, inStock, true));
     }
     
-    public void deleteRegisteredItemInStore(String productKey){
+    public static void deleteRegisteredItemInStore(String productKey){
         store.remove(findRegisteredItemByProductKey(productKey));
     }
     
-    public List<Item> browseStoreForRegisteredItem(String name){
+    public static List<Item> browseStoreForRegisteredItem(String name){
         List<Item> catalog = new ArrayList<>();
         
         for(Item i: store)
@@ -103,7 +103,7 @@ public class ThriftyManager {
         return catalog.isEmpty() ? null : catalog;
     }
     
-    public List<Item> browseStoreForRegisteredItemCheaperThan(float price){
+    public static List<Item> browseStoreForRegisteredItemCheaperThan(float price){
         List<Item> catalog = new ArrayList<>();
         
         for(Item i: store)
@@ -113,7 +113,7 @@ public class ThriftyManager {
         return catalog.isEmpty() ? null : catalog;
     }
     
-    public List<Item> browseStoreForRegisteredItemCheaperThan(String name, float price){
+    public static List<Item> browseStoreForRegisteredItemCheaperThan(String name, float price){
         
         List<Item> catalog = new ArrayList<>();
         
