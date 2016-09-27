@@ -16,10 +16,12 @@ import java.util.List;
 public class Cart {
     // Attributes
     private List<Item> content;
+    private float totalPrice;
     
-    // COnstructor
+    // Constructor
     public Cart(){
         content = new ArrayList<>();
+        this.setTotalPrice(0);
     }
     
     public void setContent(List<Item> content){
@@ -27,6 +29,14 @@ public class Cart {
     }
     
     public List<Item> getContent(){
-        return this.content;
+        return content;
+    }
+    
+    public void setTotalPrice(float totalPrice){
+        this.totalPrice = totalPrice;
+    }
+    
+    public float getTotalPrice(){
+        return totalPrice;
     }
 }
