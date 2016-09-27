@@ -61,6 +61,28 @@ public class ThriftyManager {
         return null;
     }
     
+    private String hideRegisteredItemFromUsers(String productKey){
+        Item item = findRegisteredItemByProductKey(productKey);
+        
+        store.remove(item);
+        
+        item.setVisible(false);
+        
+        store.add(item);
+        return "hidden";
+    }
+    
+    private String showRegisteredItemToUsers(String productKey){
+        Item item = findRegisteredItemByProductKey(productKey);
+        
+        store.remove(item);
+        
+        item.setVisible(true);
+        
+        store.add(item);
+        return "revealed";
+    }
+    
     // User Related Functions
     public boolean createNewNonAdminUserAccount(String username, String firstName, String lastName, String password){
         if (!isUsernameTaken(username.toUpperCase())){
@@ -114,7 +136,6 @@ public class ThriftyManager {
     }
     
     public List<Item> browseStoreForRegisteredItemCheaperThan(String name, float price){
-        
         List<Item> catalog = new ArrayList<>();
         
         for(Item i: store)
@@ -123,6 +144,12 @@ public class ThriftyManager {
                     catalog.add(i);
         
         return catalog.isEmpty() ? null : catalog;
+    }
+    
+    public String switchVisibilityOfRegisteredItem(String productKey){
+        Item item = findRegisteredItemByProductKey(productKey);
+        
+        return item.isVisible() ? hideRegisteredItemFromUsers(productKey) : showRegisteredItemToUsers(productKey);
     }
     
 }
