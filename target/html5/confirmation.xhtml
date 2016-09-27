@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:jsf="http://xmlns.jcp.org/jsf">
 
 <h:head>
@@ -15,7 +15,7 @@
 
     <p>
         <output jsf:id="confirm" name="confirm"> 
-            Thanks for your reservation, #{bean.name}.  #{bean.guests} guests are confirmed for #{bean.arrival}.  Your total amount is #{bean.totalValue}.  A fictitous email has been sent to #{bean.email}.
+            Thanks for your reservation, #{bean.name}.  #{bean.guests} guests are confirmed for #{bean.arrival}.  Your total amount is #{bean.totalValue}.  An email has been sent to #{bean.email}.
         </output>
             
     </p>
