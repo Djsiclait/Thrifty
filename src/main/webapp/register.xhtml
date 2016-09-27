@@ -7,7 +7,7 @@
 <!-- test -->
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>Login</title>
+    <title>Register</title>
     <h:outputStylesheet>
         html, body {
             height: 100%;
@@ -27,9 +27,9 @@
     </h:outputStylesheet>
 </h:head>
 <h:body onload="document.getElementById('j_username').focus()">
-    <div id="content" title="User Login">
-        <h:form id="login" prependId="false">
-            <p:growl id="msg" rendered="#{param.error}"><h:outputText value="#{userController.loginStatus}"/></p:growl>
+    <div id="content" title="User SignUp">
+        <h:form id="signup" prependId="false">
+            <p:growl id="msg" rendered="#{param.error}"><h:outputText value="#{userControler.loginStatus}"/></p:growl>
             <p:dialog header="User Login"
                       id="dialog"
                       modal="true"
@@ -40,17 +40,17 @@
                       draggable="false"
                       resizable="false"
                       visible="true">
-                <h:panelGrid id="loginBox" columns="2" cellpadding="3"
+                <h:panelGrid id="registerbox" columns="2" cellpadding="3"
                              style="margin: 0 auto; border: 0px; padding-top: 20px;">
                     <h:outputLabel for="j_username" value="Username "/>
                     <h:outputLabel for="j_password" value="Password "/>
                     <p:keyboard id="j_username" required="true" widgetVar="usernameKeyBoard"
-                                value="#{userController.userName}"
+                                value="#{userControler.userName}"
                                 onfocus="$('#keypad-div').css( 'z-index', 9999 );"/>
                     <p:keyboard id="j_password" required="true" password="true"
-                                value="#{userController.password}"
+                                value="#{userControler.password}"
                                 onblur="$('#keypad-div').css( 'z-index', 9999 );"/>
-                    <p:commandButton id="loginBtn" value="Login" ajax="false" action="#{userController.loginMeIn()}"/>
+                    <p:commandButton id="loginBtn" value="Login" ajax="false" action="#{userControler.loginMeIn()}"/>
                     <p:defaultCommand target="loginBtn"/>
                 </h:panelGrid>
             </p:dialog>

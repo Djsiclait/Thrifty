@@ -45,13 +45,9 @@
                              style="margin: 0 auto; border: 0px; padding-top: 20px;">
                     <h:outputLabel for="j_username" value="Username "/>
                     <h:outputLabel for="j_password" value="Password "/>
-                    <p:keyboard id="j_username" required="true" widgetVar="usernameKeyBoard"
-                                value="#{userController.userName}"
-                                onfocus="$('#keypad-div').css( 'z-index', 9999 );"/>
-                    <p:keyboard id="j_password" required="true" password="true"
-                                value="#{userController.password}"
-                                onblur="$('#keypad-div').css( 'z-index', 9999 );"/>
-                    <p:commandButton id="loginBtn" value="Login" ajax="false" action="#{userController.loginMeIn()}"/>
+                    <p:inputText id="j_username" required="true" value="#{userControler.userName}" />
+                    <p:inputText id="j_password" required="true" type="password" value="#{userControler.password}"/>
+                    <p:commandButton id="loginBtn" value="Login" ajax="false" action="#{userControler.loginMeIn()}"/>
                     <p:defaultCommand target="loginBtn"/>
                 </h:panelGrid>
             </p:dialog>
