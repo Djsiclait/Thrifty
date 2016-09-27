@@ -26,9 +26,10 @@ public class UserController implements Serializable {
 
     public String loginMeIn() {
       //  _log.info("Trying to Logging in now with UserName : " + userName);
-        boolean loggedIn = ThriftyManager.validateCredentialsForUserAccount(userName, password);
+       boolean loggedIn = ThriftyManager.validateCredentialsForUserAccount(userName, password);
        this.loginStatus = loggedIn ? "Login Successful" : "Login failed";
-        return loggedIn ? "/welcome.jsf?faces-redirect=true" : "/logmein.jsf?error=true";
+       userName = password = "";
+       return loggedIn ? "/welcome.jsf?faces-redirect=true" : "/logmein.jsf?error=true";
     }
 
     public String getLoginStatus() {
