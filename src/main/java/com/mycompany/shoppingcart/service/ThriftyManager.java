@@ -117,6 +117,10 @@ public class ThriftyManager {
         return (user == null) ? false : user.getPassword().equals(password);
     }
     
+    public static List<User> showAllRegisteredUserAccounts(){
+        return users;
+    }
+    
     // Store Related Functions
     public static void registerNewItemInStore(String name, float price, Integer inStock){
         if (price < 0.00f || inStock < 0)
