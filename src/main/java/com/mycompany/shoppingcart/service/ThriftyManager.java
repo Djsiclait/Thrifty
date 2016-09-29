@@ -55,7 +55,7 @@ public class ThriftyManager {
         return (user != null);
     }
     
-    private static Item findRegisteredItemByProductKey(String productKey){
+    public static Item findRegisteredItemByProductKey(String productKey){
         for(Item i: store)
             if (i.getProductKey().equals(productKey))
                 return i;
