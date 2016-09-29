@@ -30,6 +30,7 @@ public class StoreController {
     private String itemName;
     private float itemPrice;
     private Integer inStock;
+    private boolean visible;
     // Receipt
     private String transactionId;
     
@@ -49,9 +50,9 @@ public class StoreController {
         return ""; // TODO: redirect to purchase detail
     }
     
-    public String addItemToCart(){
+    public String addItemToCart(String ID){
         // Finding the item in the store
-        Item i = ThriftyManager.findRegisteredItemByProductKey(getProductKey());
+        Item i = ThriftyManager.findRegisteredItemByProductKey(ID);
         
         if (i.getInStock() == 0)
             return "";
@@ -68,11 +69,11 @@ public class StoreController {
         return "";
     }
     
-    public String removeItemFromCart(){
+    public String removeItemFromCart(String ID){
         if (ThriftyManager.getStore().isEmpty())
             return ""; // TODO: redirect somewhere else
         
-        Item i = ThriftyManager.findRegisteredItemByProductKey(getProductKey());
+        Item i = ThriftyManager.findRegisteredItemByProductKey(ID);
         
         // Updating the cart
         getCart().getContent().remove(new Item(i.getProductKey(), i.getName(), i.getPrice()));
@@ -120,11 +121,11 @@ public class StoreController {
         return "";
     }
     
-    public void deleteItemInStore(){
-        ThriftyManager.deleteRegisteredItemInStore(getProductKey());
+    public void deleteItemInStore(String ID){
+        ThriftyManager.deleteRegisteredItemInStore(ID);
     }
     
-    public List<Item> displayAllItems(){
+    public List displayAllItems(){
         return ThriftyManager.showCompleteStoreCatalog();
     }
     
@@ -233,6 +234,20 @@ public class StoreController {
      */
     public void setTransactionId(String transactionId) {
         this.transactionId = transactionId;
+    }
+
+    /**
+     * @return the visible
+     */
+    public boolean isVisible() {
+        return visible;
+    }
+
+    /**
+     * @param visible the visible to set
+     */
+    public void setVisible(boolean visible) {
+        this.visible = visible;
     }
     
     

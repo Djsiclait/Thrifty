@@ -30,7 +30,7 @@
     <div id="content" title="User SignUp">
         <h:form id="signup" prependId="false">
             <p:growl id="msg" rendered="#{param.error}"><h:outputText value="#{userControler.loginStatus}"/></p:growl>
-            <p:dialog header="User Login"
+            <p:dialog header="User Registration"
                       id="dialog"
                       modal="true"
                       closable="false"
@@ -43,14 +43,23 @@
                 <h:panelGrid id="registerbox" columns="2" cellpadding="3"
                              style="margin: 0 auto; border: 0px; padding-top: 20px;">
                     <h:outputLabel for="j_username" value="Username "/>
-                    <h:outputLabel for="j_password" value="Password "/>
-                    <p:keyboard id="j_username" required="true" widgetVar="usernameKeyBoard"
+                    <h:outputLabel for="j_name" value="First Name "/>
+                    
+                    <p:inputText id="j_username" required="true" widgetVar="usernameKeyBoard"
                                 value="#{userControler.userName}"
                                 onfocus="$('#keypad-div').css( 'z-index', 9999 );"/>
-                    <p:keyboard id="j_password" required="true" password="true"
+                    <p:inputText id="j_name" required="true" widgetVar="usernameKeyBoard"
+                                 value="#{userControler.firstName}"
+                                onfocus="$('#keypad-div').css( 'z-index', 9999 );"/>
+                    <h:outputLabel for="j_lastname" value="Last Name "/>
+                    <h:outputLabel for="j_password" value="Password "/>
+                    <p:inputText id="j_lastname" required="true" widgetVar="usernameKeyBoard"
+                                 value="#{userControler.lastName}"
+                                onfocus="$('#keypad-div').css( 'z-index', 9999 );"/>
+                    <p:inputText id="j_password" required="true" type="password"
                                 value="#{userControler.password}"
                                 onblur="$('#keypad-div').css( 'z-index', 9999 );"/>
-                    <p:commandButton id="loginBtn" value="Login" ajax="false" action="#{userControler.loginMeIn()}"/>
+                    <p:commandButton id="loginBtn" value="Register" ajax="false" action="#{userControler.createNewAccount()}"/>
                     <p:defaultCommand target="loginBtn"/>
                 </h:panelGrid>
             </p:dialog>

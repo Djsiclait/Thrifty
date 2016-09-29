@@ -71,6 +71,9 @@ public class ThriftyManager {
         // Creating default admin
         if(users.isEmpty())
             users.add(new User("ADMIN", "Administrator", "admin", "admin", true));
+        
+        if(store.isEmpty())
+            store.add(new Item("Green Polo", 15.95f, 29, true));
     }
     
     // Auxiliary Functions

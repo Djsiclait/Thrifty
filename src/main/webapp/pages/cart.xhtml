@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<ui:composition template="/templates/admin_template.xhtml">
+    <ui:define name="bodyContent">
+        <p:dialog id="itemDetail" widgetVar="$itemDetail"
+                  hideEffect="explode" appendTo="@(body)"
+                  resizable="false" draggable="false"
+                  closeOnEscape="true">
+            <h:form>
+                <h:inputHidden value="#{productController.discount.id}"/>
+                <p:panelGrid columns="2">
+                    <p:outputLabel value="Id"/>  #{productController.discount.id}
+
+                    <p:outputLabel value="Discount Code"/>
+                    <p:inputText label="Discount Code" value="#{productController.discount.code}"
+                                 placeholder="Discount Code"/>
+
+                    <p:outputLabel value="Discount Value"/>
+                    <p:inputText label="Discount Value" value="#{productController.discount.value}"
+                                 placeholder="Discount Value"/>
+
+                    <p:outputLabel value="Description"/>
+                    <p:inputTextarea value="#{productController.discount.description}"/>
+
+                    <p:outputLabel value="Expiry Date"/>
+                    <p:calendar value="#{productController.discount.expiryDate}"/>
+
+                    <p:outputLabel value="Enabled"/>
+                    <p:selectBooleanCheckbox value="#{productController.discount.enabled}"/>
+
+                    <p:commandButton value="Submit" ajax="true"
+                                     update=":categor:cateTable"
+                                     action="#{productController.updateDiscount}"
+                                     oncomplete="PF('$itemDetail').hide()"/>
+                </p:panelGrid>
+            </h:form>
+
+        </p:dialog>
+        <h:form id="categor">
+            <p:commandButton icon="ui-icon-plus" id="addItemBtn" value="AddNew Discount"
+                             actionListener="#{productController.addNewDiscount}"
+                             update=":itemDetail" ajax="true"
+                             oncomplete="PF('$itemDetail').show()"/>
+
+            <p:dataTable value="#{store.cart.content}" var="dis" id="cateTable">
+                <p:column headerText="Item Id">
+                    <h:outputText value="#{dis.productKey}"/>
+                </p:column>
+                <p:column headerText="Item Name">
+                    <h:outputText value="#{dis.name}"/>
+                </p:column>
+                <p:column headerText="Item Value">
+                    <h:outputText value="#{dis.price}"/>
+                </p:column>
+                
+        
+           
+                <p:column headerText="Action" style="text-align: center">
+                    <p:commandButton icon="ui-icon-minus" id="delItemBtn"
+                                     actionListener="#{store.removeItemFromCart(dis.productKey)}"
+                                     update=":categor:cateTable"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+    </ui:define>
+</ui:composition>
+</html>
