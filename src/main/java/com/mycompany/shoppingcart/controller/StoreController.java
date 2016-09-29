@@ -6,6 +6,7 @@
 package com.mycompany.shoppingcart.controller;
 
 import com.mycompany.shoppingcart.Class.Item;
+import com.mycompany.shoppingcart.Class.Receipt;
 import com.mycompany.shoppingcart.Tools.Cart;
 import com.mycompany.shoppingcart.service.ThriftyManager;
 import java.util.List;
@@ -21,12 +22,16 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class StoreController {
     // Attributes
+    // User
     private String username;
     private Cart cart;
+    // Item
     private String productKey;
     private String itemName;
     private float itemPrice;
     private Integer inStock;
+    // Receipt
+    private String transactionId;
     
     // Initializer
     @PostConstruct
@@ -40,20 +45,20 @@ public class StoreController {
     }
     
     public String buyItemsInCart(){
-        ThriftyManager.createANewTransactionReceipt(username, cart.getContent(), cart.getTotalPrice());
+        ThriftyManager.createANewTransactionReceipt(getUsername(), getCart().getContent(), getCart().getTotalPrice());
         return ""; // TODO: redirect to purchase detail
     }
     
     public String addItemToCart(){
         // Finding the item in the store
-        Item i = ThriftyManager.findRegisteredItemByProductKey(productKey);
+        Item i = ThriftyManager.findRegisteredItemByProductKey(getProductKey());
         
         if (i.getInStock() == 0)
             return "";
         
         // Updating the cart
-        cart.getContent().add(new Item(i.getProductKey(), i.getName(), i.getPrice()));
-        cart.setTotalPrice(cart.getTotalPrice() + i.getPrice());
+        getCart().getContent().add(new Item(i.getProductKey(), i.getName(), i.getPrice()));
+        getCart().setTotalPrice(getCart().getTotalPrice() + i.getPrice());
         
         // Updating the store
         ThriftyManager.getStore().remove(i);
@@ -67,11 +72,11 @@ public class StoreController {
         if (ThriftyManager.getStore().isEmpty())
             return ""; // TODO: redirect somewhere else
         
-        Item i = ThriftyManager.findRegisteredItemByProductKey(productKey);
+        Item i = ThriftyManager.findRegisteredItemByProductKey(getProductKey());
         
         // Updating the cart
-        cart.getContent().remove(new Item(i.getProductKey(), i.getName(), i.getPrice()));
-        cart.setTotalPrice(cart.getTotalPrice() - i.getPrice());
+        getCart().getContent().remove(new Item(i.getProductKey(), i.getName(), i.getPrice()));
+        getCart().setTotalPrice(getCart().getTotalPrice() - i.getPrice());
         
         // Updating store
         ThriftyManager.getStore().remove(i);
@@ -81,8 +86,16 @@ public class StoreController {
         return "";
     }    
     
+    public List<Receipt> showAllBuyerTransactions(){
+        return ThriftyManager.findAllRegisisterTransactionOfRegisteredUser(getUsername());
+    }
+    
+    public Receipt showTransactionDetails(){
+        return ThriftyManager.findRegisteredTransactionReceipt(getTransactionId());
+    }
+    
     public List<Item> searchItem(){
-        return ThriftyManager.browseStoreForRegisteredItem(itemName);
+        return ThriftyManager.browseStoreForRegisteredItem(getItemName());
     }
     
     public List<Item> searchStoreByPriceRange(float price){
@@ -90,13 +103,13 @@ public class StoreController {
     }
     
     public List<Item> searchItemByPriceRange(float price){
-        return ThriftyManager.browseStoreForRegisteredItemCheaperThan(itemName, price);
+        return ThriftyManager.browseStoreForRegisteredItemCheaperThan(getItemName(), price);
     }
     
     // Admin Functions
     public String registerNewItem(){
         try{
-            ThriftyManager.registerNewItemInStore(itemName, itemPrice, inStock);
+            ThriftyManager.registerNewItemInStore(getItemName(), getItemPrice(), getInStock());
             return "";
         } catch (IllegalArgumentException exp){
             System.out.println("\n\n\nIllegal Argument! Values must be positives");
@@ -108,7 +121,7 @@ public class StoreController {
     }
     
     public void deleteItemInStore(){
-        ThriftyManager.deleteRegisteredItemInStore(productKey);
+        ThriftyManager.deleteRegisteredItemInStore(getProductKey());
     }
     
     public List<Item> displayAllItems(){
@@ -116,7 +129,11 @@ public class StoreController {
     }
     
     public void configureItemVisibility(){
-        ThriftyManager.switchVisibilityOfRegisteredItem(productKey);
+        ThriftyManager.switchVisibilityOfRegisteredItem(getProductKey());
+    }
+    
+    public List<Receipt> showAllTransactions(){
+        return ThriftyManager.getAccounting();
     }
 
     // Getters and Setters
@@ -146,6 +163,76 @@ public class StoreController {
      */
     public void setCart(Cart cart) {
         this.cart = cart;
+    }
+
+    /**
+     * @return the productKey
+     */
+    public String getProductKey() {
+        return productKey;
+    }
+
+    /**
+     * @param productKey the productKey to set
+     */
+    public void setProductKey(String productKey) {
+        this.productKey = productKey;
+    }
+
+    /**
+     * @return the itemName
+     */
+    public String getItemName() {
+        return itemName;
+    }
+
+    /**
+     * @param itemName the itemName to set
+     */
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
+
+    /**
+     * @return the itemPrice
+     */
+    public float getItemPrice() {
+        return itemPrice;
+    }
+
+    /**
+     * @param itemPrice the itemPrice to set
+     */
+    public void setItemPrice(float itemPrice) {
+        this.itemPrice = itemPrice;
+    }
+
+    /**
+     * @return the inStock
+     */
+    public Integer getInStock() {
+        return inStock;
+    }
+
+    /**
+     * @param inStock the inStock to set
+     */
+    public void setInStock(Integer inStock) {
+        this.inStock = inStock;
+    }
+
+    /**
+     * @return the transactionId
+     */
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    /**
+     * @param transactionId the transactionId to set
+     */
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
     
     
