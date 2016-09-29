@@ -35,6 +35,24 @@ public class StoreController {
     }
     
     // Non Admin Functions
+    public String addItemToCart(){
+        // Finding the item in the store
+        Item i = ThriftyManager.findRegisteredItemByProductKey(productKey);
+        
+        if (i.getInStock() == 0)
+            return "";
+        
+        // Updating the cart
+        cart.getContent().add(i);
+        cart.setTotalPrice(cart.getTotalPrice() + i.getPrice());
+        
+        // Updating the store
+        ThriftyManager.getStore().remove(i);
+        i.setInStock(i.getInStock() - 1);
+        ThriftyManager.getStore().add(i);
+        
+        return "";
+    }
     
     // Admin Functions
     public String registerNewItem(){

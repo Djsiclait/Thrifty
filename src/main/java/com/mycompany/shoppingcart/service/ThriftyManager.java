@@ -20,6 +20,20 @@ public class ThriftyManager {
     // Attributes 
     private static List<User> users;
     private static List<Item> store;
+
+    /**
+     * @return the store
+     */
+    public static List<Item> getStore() {
+        return store;
+    }
+
+    /**
+     * @param aStore the store to set
+     */
+    public static void setStore() {
+        store = new ArrayList<>();
+    }
     
     // Defining Singleton
     private ThriftyManager(){
@@ -32,8 +46,8 @@ public class ThriftyManager {
         if (users == null)
             users = new ArrayList<>();
         
-        if (store == null)
-            store = new ArrayList<>();
+        if (getStore() == null)
+            setStore();
             
         // Creating default admin
         if(users.isEmpty())
@@ -56,7 +70,7 @@ public class ThriftyManager {
     }
     
     public static Item findRegisteredItemByProductKey(String productKey){
-        for(Item i: store)
+        for(Item i: getStore())
             if (i.getProductKey().equals(productKey))
                 return i;
         
@@ -66,22 +80,22 @@ public class ThriftyManager {
     private static String hideRegisteredItemFromUsers(String productKey){
         Item item = findRegisteredItemByProductKey(productKey);
         
-        store.remove(item);
+        getStore().remove(item);
         
         item.setVisible(false);
         
-        store.add(item);
+        getStore().add(item);
         return "hidden";
     }
     
     private static String showRegisteredItemToUsers(String productKey){
         Item item = findRegisteredItemByProductKey(productKey);
         
-        store.remove(item);
+        getStore().remove(item);
         
         item.setVisible(true);
         
-        store.add(item);
+        getStore().add(item);
         return "revealed";
     }
     
@@ -126,21 +140,21 @@ public class ThriftyManager {
         if (price < 0.00f || inStock < 0)
             throw new IllegalArgumentException();
         
-        store.add(new Item(name.toUpperCase(), price, inStock, true));
+        getStore().add(new Item(name.toUpperCase(), price, inStock, true));
     }
     
     public static void deleteRegisteredItemInStore(String productKey){
-        store.remove(findRegisteredItemByProductKey(productKey));
+        getStore().remove(findRegisteredItemByProductKey(productKey));
     }
     
     public static List<Item> showCompleteStoreCatalog(){
-        return itemCatalogSorter(store);
+        return itemCatalogSorter(getStore());
     }
     
     public static List<Item> showCompleteStoreVisibleCatalog(){
         List<Item> catalog = new ArrayList<>();
         
-        for(Item i: store)
+        for(Item i: getStore())
             if (i.isVisible())
                 catalog.add(i);
         
@@ -150,7 +164,7 @@ public class ThriftyManager {
     public static List<Item> browseStoreForRegisteredItem(String name){
         List<Item> catalog = new ArrayList<>();
         
-        for(Item i: store)
+        for(Item i: getStore())
             if (i.getName().equals(name.toUpperCase()) || i.getName().contains(name.toUpperCase()))
                 catalog.add(i);
         
@@ -160,7 +174,7 @@ public class ThriftyManager {
     public static List<Item> browseStoreForRegisteredItemCheaperThan(float price){
         List<Item> catalog = new ArrayList<>();
         
-        for(Item i: store)
+        for(Item i: getStore())
             if (i.getPrice() < price)
                 catalog.add(i);
         
@@ -170,7 +184,7 @@ public class ThriftyManager {
     public static List<Item> browseStoreForRegisteredItemCheaperThan(String name, float price){
         List<Item> catalog = new ArrayList<>();
         
-        for(Item i: store)
+        for(Item i: getStore())
             if (i.getName().equals(name.toUpperCase()) || i.getName().contains(name.toUpperCase()))
                 if(i.getPrice() < price)
                     catalog.add(i);
