@@ -35,6 +35,10 @@ public class StoreController {
     }
     
     // Non Admin Functions
+    public List<Item> displayCatalog(){
+        return ThriftyManager.showCompleteStoreVisibleCatalog();
+    }
+    
     public String addItemToCart(){
         // Finding the item in the store
         Item i = ThriftyManager.findRegisteredItemByProductKey(productKey);
@@ -71,6 +75,19 @@ public class StoreController {
         
         return "";
     }    
+    
+    public List<Item> searchItem(){
+        return ThriftyManager.browseStoreForRegisteredItem(itemName);
+    }
+    
+    public List<Item> searchStoreByPriceRange(float price){
+        return ThriftyManager.browseStoreForRegisteredItemCheaperThan(price);
+    }
+    
+    public List<Item> searchItemByPriceRange(float price){
+        return ThriftyManager.browseStoreForRegisteredItemCheaperThan(itemName, price);
+    }
+    
     // Admin Functions
     public String registerNewItem(){
         try{
