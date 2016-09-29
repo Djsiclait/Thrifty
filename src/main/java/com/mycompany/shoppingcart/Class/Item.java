@@ -24,6 +24,12 @@ public class Item {
     public Item(){
 
     }
+    
+    public Item(String productKey, String name, float price){
+        this.setProductKey(productKey);
+        this.setName(name);
+        this.setPrice(price);
+    }
 
     public Item(String name, float price, Integer inStock, boolean visible){
         this.setProductKey(UUID.randomUUID().toString().split("-")[0]);

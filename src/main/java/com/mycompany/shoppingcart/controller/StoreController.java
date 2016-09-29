@@ -43,7 +43,7 @@ public class StoreController {
             return "";
         
         // Updating the cart
-        cart.getContent().add(i);
+        cart.getContent().add(new Item(i.getProductKey(), i.getName(), i.getPrice()));
         cart.setTotalPrice(cart.getTotalPrice() + i.getPrice());
         
         // Updating the store
@@ -54,6 +54,23 @@ public class StoreController {
         return "";
     }
     
+    public String removeItemFromCart(){
+        if (ThriftyManager.getStore().isEmpty())
+            return ""; // TODO: redirect somewhere else
+        
+        Item i = ThriftyManager.findRegisteredItemByProductKey(productKey);
+        
+        // Updating the cart
+        cart.getContent().remove(new Item(i.getProductKey(), i.getName(), i.getPrice()));
+        cart.setTotalPrice(cart.getTotalPrice() - i.getPrice());
+        
+        // Updating store
+        ThriftyManager.getStore().remove(i);
+        i.setInStock(i.getInStock() + 1);
+        ThriftyManager.getStore().add(i);
+        
+        return "";
+    }    
     // Admin Functions
     public String registerNewItem(){
         try{
