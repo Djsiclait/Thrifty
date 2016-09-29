@@ -19,11 +19,10 @@ public class User {
     private String lastname;
     private String password;
     private boolean admin;
-    private Cart cart;
 
     //Constructors
     public User(){
-        this.setCart();
+        
     }
 
     public User(String username, String firstname, String lastname, String password, boolean admin){
@@ -32,7 +31,6 @@ public class User {
         this.setLastname(lastname);
         this.setPassword(password);
         this.setAdmin(admin);
-        this.setCart();
     }
  
     // Getters and Setters
@@ -74,13 +72,5 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
-    }
-   
-    public Cart getCart(){
-        return this.cart;
-    }
-    
-    public void setCart(){
-        this.cart = new Cart();
     }
 }
