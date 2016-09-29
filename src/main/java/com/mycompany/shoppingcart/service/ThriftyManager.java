@@ -6,6 +6,7 @@
 package com.mycompany.shoppingcart.service;
 
 import com.mycompany.shoppingcart.Class.Item;
+import com.mycompany.shoppingcart.Class.Receipt;
 import com.mycompany.shoppingcart.Class.User;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +21,7 @@ public class ThriftyManager {
     // Attributes 
     private static List<User> users;
     private static List<Item> store;
+    private static List<Receipt> accounting;
 
     /**
      * @return the store
@@ -33,6 +35,20 @@ public class ThriftyManager {
      */
     public static void setStore() {
         store = new ArrayList<>();
+    }
+
+    /**
+     * @return the accounting
+     */
+    public static List<Receipt> getAccounting() {
+        return accounting;
+    }
+
+    /**
+     * @param aAccounting the accounting to set
+     */
+    public static void setAccounting() {
+        accounting = new ArrayList<>();
     }
     
     // Defining Singleton
@@ -48,6 +64,9 @@ public class ThriftyManager {
         
         if (getStore() == null)
             setStore();
+        
+        if (getAccounting() == null)
+            setAccounting();
             
         // Creating default admin
         if(users.isEmpty())
@@ -198,4 +217,26 @@ public class ThriftyManager {
         return item.isVisible() ? hideRegisteredItemFromUsers(productKey) : showRegisteredItemToUsers(productKey);
     }
     
+    // Receipt Related Functions
+    public static void createANewTransactionReceipt(String buyer, List<Item> contents, float totalPrice){
+        getAccounting().add(new Receipt(buyer.toUpperCase(), contents, totalPrice));
+    }
+    
+    public static Receipt findRegisteredTransactionReceipt(String transactionId){
+        for(Receipt r : getAccounting())
+            if (r.getTransactionId().equals(transactionId))
+                return r;
+        
+        return null;
+    }
+    
+    public static List<Receipt> findAllRegisisterTransactionOfRegisteredUser(String username){
+        List<Receipt> receipts = new ArrayList<>();
+        
+        for(Receipt r : getAccounting())
+            if (r.getBuyer().equals(username.toUpperCase()))
+                receipts.add(r);
+        
+        return receipts.isEmpty() ? null : receipts;
+    }
 }
