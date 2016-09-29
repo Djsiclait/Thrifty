@@ -119,7 +119,6 @@ public class ThriftyManager {
     }
     
     private static List<Item> itemCatalogSorter(List<Item> catalog){
-        
         Collections.sort(catalog, new Comparator<Item>(){
             @Override
             public int compare(Item i1, Item i2){
@@ -128,6 +127,18 @@ public class ThriftyManager {
         });
         
         return catalog;
+    }
+    
+    private static List<Receipt> organizeReceiptsByDate(List<Receipt> transactions){
+          
+        Collections.sort(transactions, new Comparator<Receipt>(){
+            @Override
+            public int compare(Receipt r1, Receipt r2){
+                return r1.getTransactionDate().compareTo(r2.getTransactionDate());
+            }
+        });
+        
+        return transactions;
     }
     
     // User Related Functions
@@ -220,6 +231,8 @@ public class ThriftyManager {
     // Receipt Related Functions
     public static void createANewTransactionReceipt(String buyer, List<Item> contents, float totalPrice){
         getAccounting().add(new Receipt(buyer.toUpperCase(), contents, totalPrice));
+        
+        accounting = organizeReceiptsByDate(accounting);
     }
     
     public static Receipt findRegisteredTransactionReceipt(String transactionId){
@@ -237,6 +250,6 @@ public class ThriftyManager {
             if (r.getBuyer().equals(username.toUpperCase()))
                 receipts.add(r);
         
-        return receipts.isEmpty() ? null : receipts;
+        return receipts.isEmpty() ? null : organizeReceiptsByDate(receipts);
     }
 }

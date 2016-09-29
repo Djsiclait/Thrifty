@@ -39,6 +39,11 @@ public class StoreController {
         return ThriftyManager.showCompleteStoreVisibleCatalog();
     }
     
+    public String buyItemsInCart(){
+        ThriftyManager.createANewTransactionReceipt(username, cart.getContent(), cart.getTotalPrice());
+        return ""; // TODO: redirect to purchase detail
+    }
+    
     public String addItemToCart(){
         // Finding the item in the store
         Item i = ThriftyManager.findRegisteredItemByProductKey(productKey);
